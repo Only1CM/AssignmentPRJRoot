@@ -75,17 +75,15 @@ public class UpdateUser extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("user_id"));
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String first_name = request.getParameter("first_name");
-        String last_name = request.getParameter("last_name");
         String role = request.getParameter("choose");
-        String phone = request.getParameter("phone");
-        String email = request.getParameter("email");
         
         UserDAO userDAO = new UserDAO();
-        userDAO.update(id, first_name, last_name, username, password, role, phone, email);
+        userDAO.update(id, username, password, role);
         
-        request.setAttribute("msg", "Updated!"); 
-        request.getRequestDispatcher("ListUser").forward(request, response);
+        HttpSession session = request.getSession();
+        session.setAttribute("msg", "Updated!");
+        
+        response.sendRedirect("ListUser");
     }
 
     /** 

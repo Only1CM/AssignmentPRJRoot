@@ -10,49 +10,49 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.*;
+import model.Food;
+import model.User;
 
 /**
  *
- * @author Admin
+ * @author Nhat Anh
  */
-public class FoodDAO extends DBContext {
-
-    public Map<Integer, Food> getAllFoods() {
-        Map<Integer, Food> list = new HashMap<>();
+public class FoodDAO extends DBContext{
+    
+    public ArrayList<Food> getAllFoods() {
+        ArrayList<Food> list = new ArrayList();
         try {
             String sql = "Select * from Foods";
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                Food f = new Food();
-                f.setFood_id(rs.getInt("food_id"));
-                f.setFood_name(rs.getString("food_name"));
-                f.setFood_img(rs.getString("food_image"));
-                f.setFood_price(rs.getDouble("food_price"));
-                f.setFood_description(rs.getString("food_description"));
-                f.setCateID(rs.getInt("cateID"));
-
-                list.put(f.getFood_id(), f);
+                Food u = new Food();
+                u.setFood_id(rs.getInt("Food_id"));
+                u.setName(rs.getString("food_name"));
+                u.setCateID(rs.getInt("cateID"));
+                u.setDescription(rs.getString("food_description"));
+                u.setFood_img(rs.getString("food_image"));
+                u.setPrice(rs.getInt("food_price"));
+                
+                list.add( u);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return list;
     }
-
-    public void add(Food food) {
-
+    public void CreateFoods(Food food) {       
         try {
             String sql = "INSERT INTO Foods (food_name, food_image, food_price, food_description, cateID) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, food.getFood_name());
+            ps.setString(1, food.getName());
             ps.setString(2, food.getFood_img());
-            ps.setDouble(3, food.getFood_price());
-            ps.setString(4, food.getFood_description());
+            ps.setDouble(3, food.getPrice());
+            ps.setString(4, food.getDescription());
             ps.setInt(5, food.getCateID());
             ps.execute();
             ps.close();
@@ -60,72 +60,57 @@ public class FoodDAO extends DBContext {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public Food getFoodByID(int food_id) {
-        Food newFood = new Food();
-        try {
-            String sql = "Select * from Foods WHERE food_id = ?";
+       
+    public Food Detail(String food_name) {
+         try {
+            String sql = "SELECT * FROM Foods WHERE food_name = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, food_id);
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            while (rs.next()) {
-                newFood.setFood_id(rs.getInt("food_id"));
-                newFood.setFood_name(rs.getString("food_name"));
-                newFood.setFood_img(rs.getString("food_image"));
-                newFood.setFood_price(rs.getDouble("food_price"));
-                newFood.setFood_description(rs.getString("food_description"));
-                newFood.setCateID(rs.getInt("cateID"));
+            ps.setString(1, food_name);
+            ResultSet rs = ps.executeQuery();
+
+            //Username là độc nhất nên không cần lặp
+            if (rs.next()) {
+                Food u = new Food();
+                u.setFood_id(rs.getInt("Food_id"));
+                u.setName(rs.getString("food_name"));
+                u.setCateID(rs.getInt("cateID"));
+                u.setDescription(rs.getString("food_description"));
+                u.setFood_img(rs.getString("food_image"));
+                u.setPrice(rs.getInt("food_price"));
+              return u;
+            } else {
+                return null;
             }
-            ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return newFood;
+        return null;
     }
 
-    public ArrayList<Food> getFoodByCateID(int cateID) {
-        ArrayList<Food> list = new ArrayList<>();
+    public void update(Food food) {
         try {
-            String sql = "Select * from Foods WHERE cateID = ?";
+            String sql = "UPDATE Foods SET food_name = ?, cateID = ?, food_description = ?, food_image = ?, food_price = ? WHERE Food_id = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, cateID);
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            while (rs.next()) {
-                Food newFood = new Food();
-                newFood.setFood_id(rs.getInt("food_id"));
-                newFood.setFood_name(rs.getString("food_name"));
-                newFood.setFood_img(rs.getString("food_image"));
-                newFood.setFood_price(rs.getDouble("food_price"));
-                newFood.setFood_description(rs.getString("food_description"));
-                newFood.setCateID(rs.getInt("cateID"));
-                list.add(newFood);
-            }
-            ps.close();
+            ps.setString(1, food.getName());
+            ps.setString(2, food.getFood_img());
+            ps.setDouble(3, food.getPrice());
+            ps.setString(4, food.getDescription());
+            ps.setInt(5, food.getCateID());
+            ps.execute();
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return list;
     }
-
-    public void delete(int food_id) {
+     public void delete(int id) {
         try {
-            String sql = "DELETE FROM Foods WHERE food_id = ?";
+            String sql = "DELETE FROM Foods WHERE Food_id = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, food_id);
+            ps.setInt(1,id);
             ps.execute();
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FoodDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-//
-//    public static void main(String[] args) {
-//        FoodDAO uDAO = new FoodDAO();
-//        Map<Integer, Food> x = uDAO.getAllFoods();
-//        for (int u : x.keySet()) {
-//            System.out.println(x.get(u).getFood_id() + ", " + x.get(u).getFood_name());
-//        }
-//    }
+    
 }

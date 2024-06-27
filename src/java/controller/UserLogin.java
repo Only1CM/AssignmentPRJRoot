@@ -31,7 +31,8 @@ public class UserLogin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         if (session.getAttribute("user") != null) {
-            request.getRequestDispatcher("index.html").forward(request, response);
+            request.setAttribute("error", "You have login already!");
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
         }
         String username = request.getParameter("username");
         String password = request.getParameter("pass");

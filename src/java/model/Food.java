@@ -9,57 +9,12 @@ package model;
  * @author Admin
  */
 public class Food {
-
     private int food_id;
-    private String food_name;
-    private String food_description;
+    private String name;
+    private String description;
     private String food_img;
-    private double food_price;
+    private double price;
     private int cateID;
-
-    public Food() {
-    }
-
-    public Food(int food_id, String food_name, String food_description, String food_img, double food_price, int cateID) {
-        this.food_id = food_id;
-        this.food_name = food_name;
-        this.food_description = food_description;
-        this.food_img = food_img;
-        this.food_price = food_price;
-        this.cateID = cateID;
-    }
-
-    public Food(String food_name, String food_description, String food_img, double food_price, int cateID) {
-        this.food_name = food_name;
-        this.food_description = food_description;
-        this.food_img = food_img;
-        this.food_price = food_price;
-        this.cateID = cateID;
-    }
-
-    public int getFood_id() {
-        return food_id;
-    }
-
-    public void setFood_id(int food_id) {
-        this.food_id = food_id;
-    }
-
-    public String getFood_name() {
-        return food_name;
-    }
-
-    public void setFood_name(String food_name) {
-        this.food_name = food_name;
-    }
-
-    public String getFood_description() {
-        return food_description;
-    }
-
-    public void setFood_description(String food_description) {
-        this.food_description = food_description;
-    }
 
     public String getFood_img() {
         return food_img;
@@ -67,14 +22,6 @@ public class Food {
 
     public void setFood_img(String food_img) {
         this.food_img = food_img;
-    }
-
-    public double getFood_price() {
-        return food_price;
-    }
-
-    public void setFood_price(double food_price) {
-        this.food_price = food_price;
     }
 
     public int getCateID() {
@@ -85,4 +32,62 @@ public class Food {
         this.cateID = cateID;
     }
 
+    public Food() {
+    }
+
+    public Food(int food_id, String name, String description, String food_img, double price, int cateID) {
+        this.food_id = food_id;
+        this.name = name;
+        this.description = description;
+        this.food_img = food_img;
+        this.price = price;
+        this.cateID = cateID;
+    }
+
+    public Food(String name, String description, double price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+
+    public Food(int food_id, String name, String description, double price) {
+        this.food_id = food_id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+
+    public int getFood_id() {
+        return food_id;
+    }
+
+    public void setFood_id(int food_id) {
+        this.food_id = food_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+    
+    
 }

@@ -11,6 +11,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import model.User;
 
 /**
@@ -39,10 +42,6 @@ public class UserSignUp extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String first_name = request.getParameter("first_name");
-        String last_name = request.getParameter("last_name");
-        String phone = request.getParameter("phone");
-        String email = request.getParameter("email'");
         String username = request.getParameter("username");
         String password = request.getParameter("pass");
         String rePassword = request.getParameter("re-pass");
@@ -54,7 +53,7 @@ public class UserSignUp extends HttpServlet {
                     UserDAO adminDAO = new UserDAO();
                     User usernameCheck = adminDAO.getByUsername(username);
                     if (usernameCheck == null) {
-                        User newUser = new User(first_name, last_name, username, password, "user", phone, email);
+                        User newUser = new User(username, password, "User");
                         adminDAO.add(newUser);
                         request.setAttribute("message", "Sign-up successfully!");
                         request.getRequestDispatcher("SignUp.jsp").forward(request, response);

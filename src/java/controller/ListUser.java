@@ -74,8 +74,6 @@ public class ListUser extends HttpServlet {
                session.removeAttribute("user");
                request.getRequestDispatcher("Login.jsp").forward(request, response);
             } else {
-                String msg = (String) request.getAttribute("msg");
-                request.setAttribute("msg", msg);
                 request.setAttribute("allUser", list);
                 request.getRequestDispatcher("ListUser.jsp").forward(request, response);
             }

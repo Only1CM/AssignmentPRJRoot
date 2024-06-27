@@ -10,15 +10,15 @@ package model;
  */
 public class Table {
     private int table_number;
-    private int num_people;
+    private int capacity;
     private String status;
 
     public Table() {
     }
 
-    public Table(int table_number, int num_people, String status) {
+    public Table(int table_number, int capacity, String status) {
         this.table_number = table_number;
-        this.num_people = num_people;
+        this.capacity = capacity;
         this.status = status;
     }
 
@@ -31,11 +31,11 @@ public class Table {
     }
 
     public int getCapacity() {
-        return num_people;
+        return capacity;
     }
 
-    public void setCapacity(int num_people) {
-        this.num_people = num_people;
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
     public String getStatus() {
